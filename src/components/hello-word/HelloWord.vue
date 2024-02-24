@@ -1,4 +1,4 @@
-<template><div></div></template>
+<template><div>awfawfawfafawfawd</div></template>
 
 <script setup lang="ts"></script>
 
