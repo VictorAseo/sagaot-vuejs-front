@@ -19,36 +19,6 @@ const routes: Array<RouteRecordRaw> = [
     path:"/SignUpView",
     name:"SignUpView",
     component: SignUpView
-  },
-  { // Professor list screen to student category
-    path:"/ProfessorsListView_S",
-    name:"ProfessorsListView",
-    component: ProfessorsListView
-  },
-  { // GPA Screen
-    path:"/GPAView",
-    name:"GPAView",
-    component: GPAView
-  },
-  { // Message Screen
-    path:"/MessagesView",
-    name:"MessagesView",
-    component: MessagesView
-  },
-  { // Documents/Reports screen
-    path:"/DocumentsView",
-    name:"DocumentsView",
-    component: DocumentsView
-  },
-  { // Students list screen to professor category
-    path:"/StudentsListView_P",
-    name:"StudentsListView",
-    component: StudentsListView
-  },
-  { // Settings screen
-    path:"/SettingsView",
-    name:"SettingsView",
-    component: SettingsView
   }
 ];
 
