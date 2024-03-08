@@ -5,11 +5,6 @@ import HomeView from "@/views/home/HomeView.vue";
 
 
 const routes: Array<RouteRecordRaw> = [
-  { //Dashboard screen
-    path: "/Dashboard_S",
-    name: "HomeView",
-    component: HomeView,
-  },
   { // Sign in screen
     path:"/SignInView",
     name:"SignInView",
@@ -19,6 +14,11 @@ const routes: Array<RouteRecordRaw> = [
     path:"/SignUpView",
     name:"SignUpView",
     component: SignUpView
+  },
+  { //Dashboard screen
+    path: "/Dashboard_S",
+    name: "HomeView",
+    component: HomeView,
   }
 ];
 
