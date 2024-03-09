@@ -1,4 +1,8 @@
 {
+  "compilerOptions": {
+    // Add any existing compiler options here
+    "types": ["element-plus/global"]
+  },
   "files": [],
   "references": [
     {
