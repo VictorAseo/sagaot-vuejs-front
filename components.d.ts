@@ -7,8 +7,26 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AppButton: typeof import('./src/components/app-button/AppButton.vue')['default']
+    AppDropdown: typeof import('./src/components/app-dropdown/AppDropdown.vue')['default']
+    AppIcon: typeof import('./src/components/app-icon/AppIcon.vue')['default']
+    AppLoading: typeof import('./src/components/app-loading/AppLoading.vue')['default']
+    AppModal: typeof import('./src/components/app-modal/AppModal.vue')['default']
+    AppNavbar: typeof import('./src/components/app-navbar/AppNavbar.vue')['default']
+    AppSelect: typeof import('./src/components/app-select/AppSelect.vue')['default']
+    BackButton: typeof import('./src/components/back-button/BackButton.vue')['default']
+    CharactersModal: typeof import('./src/components/characters-modal/CharactersModal.vue')['default']
+    ElInput: typeof import('element-plus/es')['ElInput']
+    ElText: typeof import('element-plus/es')['ElText']
+    FormBackground: typeof import('./src/components/form-box/FormBackground.vue')['default']
+    FormBox: typeof import('./src/components/form-box/FormBox.vue')['default']
+    FormInput: typeof import('./src/components/form-input/FormInput.vue')['default']
+    HelloWord: typeof import('./src/components/hello-word/HelloWord.vue')['default']
     Inputs: typeof import('./src/components/Inputs/Inputs.vue')['default']
+    ProgressBar: typeof import('./src/components/progress-bar/ProgressBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SectionModule: typeof import('./src/components/section-module/SectionModule.vue')['default']
+    TextButton: typeof import('./src/components/text-button/TextButton.vue')['default']
   }
 }

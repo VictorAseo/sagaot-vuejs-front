@@ -1,276 +1,264 @@
 <template>
-  <main id="register-container">
-    <RouterLink to="/SignInView" class="return-icon">
-      <span class="material-symbols-outlined">
-        keyboard_return
-      </span>
-    </RouterLink>
-    <h1 class="title">
-      Cadastro
-    </h1>
-    <el-form
-      ref="ruleFormRef"
-      :model="ruleForm"
-      :rules="rules"
-      class="form-container"
-      hide-required-asterisk
-    >
-      <el-row>
-        <el-form-item>
-          <el-col>
-            Nome:
-            <el-input
-              v-model="ruleForm.firstName"
-              placeholder="Digite aqui"
-              label="Nome"
-              prop="firstName"
-            />
-          </el-col>
-        </el-form-item>
-        <el-col :xs="24" :sm="24">
-          <el-form-item
-            label="E-mail"
-            prop="email"
-          >
-            <el-input
-              v-model="ruleForm.email"
-              placeholder="exemplo@exemplo.com"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :xs="24" :sm="24">
-          <el-form-item
-            label="matricula"
-            prop="matricula"
-            :key="`matricula-${controlRender}`"
-          >
-            <el-input
-              id="input-matricula"
-              placeholder="201986481"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :xs="24" :sm="12">
-            <el-form-item label="userType" prop="userType">
-              <el-select
-                v-model="usertype_ref"
-                placeholder="Select"
-                size="small"
-                style="width: 240px">
-                <el-option
-                  v-for="item in usertype"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"/>
-              </el-select>
-            </el-form-item>
-        </el-col>
-        <el-col :xs="24" :sm="12">
-          <el-form-item
-            label="Senha"
-            prop="password"
-          >
-            <el-input
-              v-model="ruleForm.password"
-              type="password"
-              placeholder="•••••••••••"
-            />
-          </el-form-item>
-        </el-col>
-        <el-col :xs="24" :sm="12">
-          <el-form-item
-            label="Repita a senha"
-            prop="retypePassword"
-          >
-            <el-input
-              v-model="ruleForm.retypePassword"
-              type="password"
-              placeholder="•••••••••••"
-            />
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-form-item>
-        <el-button
-          color="#7FE7C4"
-          @click="submitForm(ruleFormRef)"
-        >
-          Cadastrar
-        </el-button>
-      </el-form-item>
-    </el-form>
-  </main>
+  <div class="register-step-one__container">
+    <h1 class="register-step-one__title">Cadastro</h1>
+    <div class="register-step-one__form">
+      <FormInput
+        v-for="[key, fieldInfo] in Object.entries(registerFields)"
+        :key="key"
+        :input-label="fieldInfo.label"
+        :input-value="fieldInfo.value"
+        :input-type="fieldInfo.type"
+        :input-status="fieldInfo.status"
+        :input-feedback="fieldInfo.feedback"
+        :input-placeholder="fieldInfo.placeholder"
+        @update:input-value="(newValue) => (fieldInfo.value = newValue)"
+      />
+    </div>
+    <div class="register-step-one__redirect-and-button-container">
+      <TextButton to="/login">
+        <template #text>Já possui conta? Voltar para </template>
+        <template #bold>Login</template>
+      </TextButton>
+      <AppButton
+        class="register-step-one__next-button"
+        @click="goToNextStep"
+      >
+        Próximo
+      </AppButton>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
+import { storeToRefs } from "pinia";
 
-import { reactive, ref } from 'vue';
-import type { Ref } from 'vue';
-import type { FormInstance, FormRules } from 'element-plus';
-import {
-  ElForm,
-  ElInput,
-  ElFormItem,
-  ElRow,
-  ElCol,
-  ElButton,
-  //ElInputNumber,
-  ElSelect,
-  ElOption,
-} from "element-plus";
+import { useRegisterStore } from "@/stores/RegisterStore";
+import { isEmail } from "@/utils";
+import type { RegisterFields } from "@/@types/stores/RegisterStore";
 
-const ruleFormRef = ref<FormInstance>();
-const controlRender: Ref<number> = ref(0);
+import FormInput from "@/components/form-input/FormInput.vue";
+import AppButton from "@/components/app-button/AppButton.vue";
+import TextButton from "@/components/text-button/TextButton.vue";
+import { hasEspecialCaracter } from "@/utils";
+import { getEmailOrLoginErrorService } from "@/services/user/service";
+import { useAppStore } from "@/stores/AppStore";
 
-interface registerForm {
-  firstName: string,
-  user: string,
-  email: string,
-  matricula: string,
-  password: string,
-  retypePassword: string,
-  selectedUsertype: string | undefined,
-  userTypeOptions: object[],
-  flagRegister: boolean
-}
+const appStore = useAppStore();
+const store = useRegisterStore();
+const { handleLoading } = appStore;
+const { registerFields } = storeToRefs(store);
+const { changeStep } = store;
 
-const ruleForm: registerForm = reactive({
-  firstName: '',
-  user: '',
-  email: '',
-  matricula: '',
-  password: '',
-  retypePassword: '',
-  age: undefined,
-  selectedUsertype: undefined,
-  userTypeOptions: [],
-  flagRegister: false
-})
+const checkRequiredField = (registerFieldsParam: RegisterFields, key: string) => {
+  const status = !!registerFieldsParam[key].value;
+  registerFieldsParam[key].status = status;
+  registerFieldsParam[key].feedback = status ? "" : "Campo obrigatório";
 
-const usertype_ref = ref('')
+  return status;
+};
 
-const usertype = [
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-  },
-  {
-    value: 'Option3',
-    label: 'Option3',
-  },
-  {
-    value: 'Option4',
-    label: 'Option4',
-  },
-  {
-    value: 'Option5',
-    label: 'Option5',
-  },
-]
-const validateRequiredField = (rule: any, value: any, callback: any) => {
-  if(ruleForm.flagRegister) {
-    if(value === '' || value == null) callback(new Error('Campo obrigatório'))
-  }
-}
-// const addListenerOnlyNumber = () => {
-//     window.addEventListener('keydown', onlynumber, true)
-// }
-// const removeListenerOnlyNumber = () => {
-//   window.removeEventListener('keydown', onlynumber, true)
-// }
-const validateEmail = (rule: any, value: any, callback: any) => {
-  if(ruleForm.flagRegister) {
-    if(value === '') {
-      callback(new Error('Campo obrigatório'));
-    } else {
-      let user: string = value.substring(0, value.indexOf("@"));
-      let domain: string = value.substring(value.indexOf("@")+ 1, value.length);
-      if((user.length >= 1) &&
-        (domain.length >= 3) &&
-        (user.search("@") == -1) &&
-        (domain.search("@") ==- 1) &&
-        (user.search(" ") == -1) &&
-        (domain.search(" ") == -1) &&
-        (domain.search(".") != -1) &&
-        (domain.indexOf(".") >=1)&&
-        (domain.lastIndexOf(".") < domain.length - 1)) {
-          callback();
-      } else {
-        callback(new Error('E-mail inválido!'))
-      }
+const checkEqualPasswords = (registerFieldsParam: RegisterFields) => {
+  if (!registerFieldsParam.password.value || !registerFieldsParam.retypePassword.value) return true;
+
+  const isEqual: boolean =
+    registerFieldsParam.password.value === registerFieldsParam.retypePassword.value;
+
+  registerFieldsParam.password.status = isEqual;
+  registerFieldsParam.password.feedback = !isEqual ? "As senhas não são iguais" : "";
+  registerFieldsParam.retypePassword.status = isEqual;
+  registerFieldsParam.retypePassword.feedback = !isEqual ? "As senhas não são iguais" : "";
+
+  return isEqual;
+};
+
+const checkEmail = (registerFieldsParam: RegisterFields, key: string) => {
+  if (!registerFieldsParam[key].value) return;
+
+  const isValidEmail: boolean = isEmail(registerFieldsParam[key].value);
+  registerFieldsParam[key].status = isValidEmail;
+  registerFieldsParam[key].feedback = isValidEmail ? "" : "E-mail inválido";
+
+  return isValidEmail;
+};
+
+const checkUsername = (registerFieldsParam: RegisterFields, key: string) => {
+  if (!registerFieldsParam[key].value) return;
+
+  const isValidUsername: boolean = !hasEspecialCaracter(registerFieldsParam[key].value);
+  registerFieldsParam[key].status = isValidUsername;
+  registerFieldsParam[key].feedback = isValidUsername
+    ? ""
+    : "Não utilize caracteres espcecias. Ex: !,@,#, etc...";
+
+  return isValidUsername;
+};
+
+const validateFields = () => {
+  let isValid = true;
+  for (const key in registerFields.value) {
+    for (const action of registerFields.value[key].validations) {
+      let validation = action(registerFields.value, key);
+      isValid = isValid && !validation ? false : isValid;
     }
   }
-}
 
-const validateRetypePassword = (rule: any, value: any, callback: any) => {
-  if(ruleForm.flagRegister) {
-    if(value === '') {
-      callback(new Error('Campo obrigatório'));
-    } else {
-      ruleFormRef.value?.validateField('retypePassword', () => null)
-      if(value !== ruleForm.password && ruleForm.password !== '') {
-        callback(new Error('As senhas não são iguais'))
-      }
+  return isValid;
+};
+
+const validateLoginAndEmail = async () => {
+  const payload = {
+    email: registerFields.value.email.value.toLowerCase(),
+    login: registerFields.value.username.value.toLowerCase()
+  };
+
+  handleLoading(true);
+
+  try {
+    const response = await getEmailOrLoginErrorService(payload);
+    if (registerFields.value.username.status) {
+      registerFields.value.username.status = !response.login;
+      registerFields.value.username.feedback = response.login;
     }
+
+    if (registerFields.value.email.status) {
+      registerFields.value.email.status = !response.email;
+      registerFields.value.email.feedback = response.email;
+    }
+
+    return !response.email && !response.login;
+  } catch (error) {
+    console.error(error);
+  } finally {
+    handleLoading(false);
   }
 };
 
-const rules = reactive<FormRules>({
-  firstName: [
-    {
-      validator: validateRequiredField,
-      trigger: 'change'
-    },
-  ],
-  lastName: [
-    {
-      validator: validateRequiredField,
-      trigger: 'change'
-    },
-  ],
-  user: [
-    {
-      validator: validateRequiredField,
-      trigger: 'change',
-    },
-  ],
-  email: [
-    {
-      validator: validateEmail,
-      trigger: 'change',
-    },
-  ],
-  password: [
-    {
-      validator: validateRequiredField,
-      trigger: 'change',
-    },
-  ],
-  retypePassword: [
-    {
-      validator: validateRetypePassword,
-      trigger: 'change',
-    },
-  ]
-})
+const goToNextStep = async () => {
+  const isValid = validateFields();
+  const isEmailAndLoginValid = await validateLoginAndEmail();
 
-const submitForm = async (formEl: FormInstance | undefined) => {
-  ruleForm.flagRegister = true;
-  if (!formEl) return
-  await formEl.validate((valid) => {
-    if (valid) formEl.resetFields()
-  });
-}
+  if (!isValid || !isEmailAndLoginValid) return;
 
+  changeStep(2);
+};
+
+const fields = {
+  firstname: {
+    label: "Nome",
+    value: "",
+    type: "text",
+    placeholder: "Digite aqui",
+    status: true,
+    feedback: "",
+    validations: [checkRequiredField]
+  },
+  lastname: {
+    label: "Sobrenome",
+    value: "",
+    type: "text",
+    placeholder: "Digite aqui",
+    status: true,
+    feedback: "",
+    validations: [checkRequiredField]
+  },
+  username: {
+    label: "Nome de usuário",
+    value: "",
+    type: "text",
+    placeholder: "Digite aqui",
+    status: true,
+    feedback: "",
+    validations: [checkRequiredField, checkUsername]
+  },
+  email: {
+    label: "E-mail",
+    value: "",
+    type: "text",
+    placeholder: "Digite aqui",
+    status: true,
+    feedback: "",
+    validations: [checkRequiredField, checkEmail]
+  },
+  password: {
+    label: "Senha",
+    value: "",
+    type: "password",
+    placeholder: "********",
+    status: true,
+    feedback: "",
+    validations: [checkRequiredField]
+  },
+  retypePassword: {
+    label: "Repita a senha",
+    value: "",
+    type: "password",
+    placeholder: "********",
+    status: true,
+    feedback: "",
+    validations: [checkRequiredField, checkEqualPasswords]
+  }
+};
+
+registerFields.value =
+  Object.keys(registerFields.value).length === 0 ? { ...fields } : registerFields.value;
 </script>
 
-<style lang="scss">
-  //.el-input__inner {
-  //  width: 100px;
-  //  height: 500px;
-  //}
+<style lang="scss" scoped>
+.register-step-one__container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .register-step-one__title {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 12px;
+  }
+
+  .register-step-one__form {
+    margin: 12px 0 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .register-step-one__redirect-and-button-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+
+    .register-step-one__next-button {
+      margin: auto 0 0 auto;
+      height: fit-content;
+    }
+  }
+  .register-step-one__register-link {
+    display: flex;
+    margin-top: 16px;
+    justify-content: center;
+
+    a {
+      text-decoration: none !important;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .register-step-one__container {
+    .register-step-one__form {
+      grid-template-columns: 1fr;
+    }
+
+    .register-step-one__redirect-and-button-container {
+      flex-direction: column-reverse;
+      .register-step-one__next-button {
+        width: 100%;
+      }
+    }
+  }
+}
 </style>
