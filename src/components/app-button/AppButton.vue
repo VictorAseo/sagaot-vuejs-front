@@ -15,11 +15,11 @@ const { isFull } = defineProps<AppButtonProps>();
 
 <style lang="scss" scoped>
 .button-app__container {
-  padding: 5px 24px;
-  width: fit-content;
+  width: 98px;
+  height: 34px;
   border-radius: 5px;
-  background: #ffe500;
-  border: 2px solid #ffe500;
+  background: #379200;
+  border: 2px solid #379200;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -32,7 +32,7 @@ const { isFull } = defineProps<AppButtonProps>();
     color 0.6s ease,
     border-color 0.6s ease;
 
-  color: #000;
+  color: #ffffff;
   font-size: 12px;
   font-weight: 500;
   line-height: normal;
@@ -53,8 +53,8 @@ const { isFull } = defineProps<AppButtonProps>();
   }
 
   &:active {
-    border-color: #ffe500;
-    color: #ffe500;
+    border-color: #ffffff;
+    color: #ffffff;
     transition:
       background 0.2s ease,
       color 0.2s ease,

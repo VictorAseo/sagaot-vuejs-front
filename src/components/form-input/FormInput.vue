@@ -1,6 +1,6 @@
 <template>
   <div class="form-input__container">
-    <label>{{ inputLabel }}</label>
+    <label>{{ inputLabel }}</label><br>
     <input
       v-if="inputModelLocal === 'input'"
       :class="[{ 'is-invalid': !inputStatus }]"
@@ -8,6 +8,7 @@
       :value="inputValue"
       :placeholder="inputPlaceholder"
       @input="updateInputValue"
+      style="height: 37px; width: 516px; margin-top: 9px; margin-bottom: 9px"
     />
     <textarea
       v-if="inputModelLocal === 'textarea'"
@@ -18,8 +19,8 @@
       :placeholder="inputPlaceholder"
       @input="updateInputValue"
     />
-    <span v-if="!inputStatus && !!inputFeedback">{{ inputFeedback }}</span>
-  </div><br>
+    <span class="inputFeedback_Status" v-if="!inputStatus && !!inputFeedback">{{ inputFeedback }}</span>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -47,48 +48,51 @@ const updateInputValue = (e: Event) => {
 
 <style lang="scss" scoped>
 .form-input__container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
+  background: #ffffff;
 
   label {
     color: #000000;
+    background: #ffffff;
     font-size: 12px;
     font-weight: 400;
-    line-height: normal;
+
+  }
+
+  .inputFeedback_Status{
+    padding-left: 5px;
   }
 
   input,
   textarea {
-    max-width: 100%;
-    min-width: 100%;
+    width: 1000px;
+    max-height: 1231231px;
     padding: 6px 12px;
     border-radius: 5px;
-    background: #fff;
-    border: 2px solid #100000;
+    background-color: rgba(205, 205, 205, 0.1);
+    border: 2px solid rgb(205, 205, 205);
     height: fit-content;
     color: #212121;
     font-size: 12px;
     line-height: normal;
     font-weight: 600;
-    margin-top: 4px;
     outline: none;
+
 
     &::placeholder {
       color: #a8a8a8;
     }
 
     &.is-invalid {
-      border-color: #ff6363;
+     // border-color: #ff6363;
     }
   }
 
   span {
     color: #ff6363;
+    background: #ffffff;
     font-size: 9px;
     font-weight: 400;
     margin-top: 4px;
-    line-height: normal;
   }
 }
 </style>

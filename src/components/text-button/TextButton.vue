@@ -25,21 +25,21 @@ const { to } = defineProps<TextButtonProps>();
 
   a {
     text-decoration: none !important;
+    background: #ffffff;
   }
 
   .text-button__register-button {
-    background: transparent;
     border: 0;
     outline: 0;
     cursor: pointer;
-
-    color: #fff;
+    background: #ffffff;
+    color: #000000;
     font-weight: 500;
     font-size: 10px;
     line-height: normal;
 
     b {
-      background: linear-gradient(to right, #ffe500 100%, #ffe500 100%);
+      background: linear-gradient(to right, #000000 100%, #000000 100%);
       -webkit-text-fill-color: transparent;
       -webkit-background-clip: text;
 
@@ -58,7 +58,7 @@ const { to } = defineProps<TextButtonProps>();
 
     &:hover {
       b {
-        background: linear-gradient(to right, #fff 10%, #ffe500 40%, #0190cd 70%, #764ada 80%);
+        background: linear-gradient(to right, #00B2FFFF 10%, #00B2FFFF 40%, #00B2FFFF 70%, #00b2ff 80%);
         background-clip: text;
         -webkit-text-fill-color: transparent;
         -webkit-background-clip: text;

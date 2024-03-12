@@ -16,8 +16,6 @@ declare module 'vue' {
     AppSelect: typeof import('./src/components/app-select/AppSelect.vue')['default']
     BackButton: typeof import('./src/components/back-button/BackButton.vue')['default']
     CharactersModal: typeof import('./src/components/characters-modal/CharactersModal.vue')['default']
-    ElInput: typeof import('element-plus/es')['ElInput']
-    ElText: typeof import('element-plus/es')['ElText']
     FormBackground: typeof import('./src/components/form-box/FormBackground.vue')['default']
     FormBox: typeof import('./src/components/form-box/FormBox.vue')['default']
     FormInput: typeof import('./src/components/form-input/FormInput.vue')['default']

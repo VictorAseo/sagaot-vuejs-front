@@ -1,6 +1,6 @@
 export type RegisterFieldProps = {
   label: string;
-  value: string;
+  value: string | number | null;
   type: string;
   placeholder: string;
   status: boolean;
@@ -10,10 +10,10 @@ export type RegisterFieldProps = {
 
 export type RegisterFields = {
   [key: string]: RegisterFieldProps;
-  firstname: RegisterFieldProps;
-  lastname: RegisterFieldProps;
-  username: RegisterFieldProps;
+  name: RegisterFieldProps;
   email: RegisterFieldProps;
+  matricula: RegisterFieldProps;
   password: RegisterFieldProps;
   retypePassword: RegisterFieldProps;
+  typeUser: RegisterFieldProps
 };

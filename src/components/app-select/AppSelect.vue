@@ -9,7 +9,6 @@
         <div class="app-select__input-container">
           {{ optionList.find((item) => item.id === inputValue)?.label || "" }}
         </div>
-
         <ChevronDown color="#222222" />
       </div>
     </div>
@@ -34,6 +33,13 @@
         {{ option.label }}
       </li>
     </ul>
+    <span style="color: #ff6363;
+    background: #ffffff;
+    font-size: 9px;
+    display: grid;
+    margin-top: 40px;
+    margin-left: 4px;
+    font-weight: 400;" class="inputFeedback_Status" v-if="!inputStatus && !!inputFeedback">{{ inputFeedback }} <p style="color: #ffffff">aaafawfwawfawawfawfa</p></span>
   </div>
 </template>
 
@@ -42,7 +48,7 @@ import { ref, watch, nextTick } from "vue";
 import { ChevronDown } from "lucide-vue-next";
 import type { AppSelectProps, SelectEmitsProps } from "@/@types/components/AppSelect";
 
-const { optionList, position, inputValue, label } = defineProps<AppSelectProps>();
+const { optionList, position, inputValue, label, inputPlaceholder, inputStatus, inputFeedback } = defineProps<AppSelectProps>();
 
 const emit = defineEmits<SelectEmitsProps>();
 
@@ -101,11 +107,15 @@ watch(opennedOptions, (value) => {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 9px;
+
+    &.is-invalid {
+      border-color: #ff6363;
+    }
 
     label {
-      color: #fff;
-      font-size: 10px;
+      color: #000000;
+      font-size: 12px;
       font-weight: 400;
       line-height: normal;
     }
@@ -115,37 +125,44 @@ watch(opennedOptions, (value) => {
       display: flex;
       align-items: center;
       cursor: pointer;
-      width: 100%;
-      height: 34px;
-      background-color: #fff;
+      width: 516px;
+      height: 37px;
+      background-color: rgba(217, 217, 217, 0.1);
       border-radius: 5px;
-      border: 1px solid #fee500;
-      gap: 8px;
+      border: 2px solid rgb(205, 205, 205);
+      gap: 9px;
 
       .app-select__input-container {
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
         width: 100%;
-        color: #222222;
+        color: #000000;
+        background: rgb(255, 255, 255);
         font-size: 12px;
         font-weight: 500;
         line-height: normal;
       }
+      &.is-invalid {
+      border-color: #ff6363;
+    }
     }
   }
 
+
   .app-select__list {
     width: 100%;
-    min-width: 150px;
-    background: #222222;
-    border-radius: 5px;
-    border: 1px solid #fee500;
+    background-color: rgb(250, 250, 250);
+    border-radius: 6px;
+    border: 2px solid rgb(205, 205, 205);
     box-shadow: 8px 8px 25px 0px rgba(0, 0, 0, 0.25);
-
     padding: 5px 0;
     position: absolute;
-    z-index: 2;
+    z-index: 1;
+
+    &.is-invalid {
+      border-color: #ff6363;
+    }
 
     &.left-bottom,
     &.right-bottom {
@@ -177,8 +194,8 @@ watch(opennedOptions, (value) => {
       font-size: 12px;
 
       &:hover {
-        background: #fee500;
-        color: #000;
+        background: #000000;
+        color: #ffffff;
       }
     }
   }

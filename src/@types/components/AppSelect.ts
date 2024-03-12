@@ -8,6 +8,10 @@ export type AppSelectProps = {
   inputValue: number | null;
   optionList: Array<listOptionProps>;
   position?: "left-bottom" | "right-bottom" | "left-top" | "right-top" | string;
+  inputFeedback?: string;
+  inputStatus?: boolean;
+  inputPlaceholder?: string;
+
 };
 
 export type SelectEmitsProps = {
