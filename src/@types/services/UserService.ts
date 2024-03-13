@@ -1,17 +1,10 @@
 export type UserProps = {
   id: number;
-  nome: string;
-  sobrenome: string;
-  login: string;
+  name: string;
   email: string;
-  user_level: number;
-  user_exp: number;
-  user_next_level_exp: number;
-  bloqueado: boolean;
-  vidas: number;
-  id_avatar: number;
+  matricula: number;
+  typeUser: string;
   is_admin: boolean;
-  url_avatar: string;
   token: string;
 };
 
@@ -26,8 +19,8 @@ export type GetLoginProps = {
 };
 
 export type LoginProps = {
-  login: string;
-  senha: string;
+  email: string;
+  password: string;
 };
 
 export type ChangeAvatarPayload = {
@@ -40,13 +33,12 @@ export type ChangeAvatarProps = {
 };
 
 export type RegisterParams = {
-  nome: string;
-  sobrenome: string;
-  login: string;
+  name: string;
   email: string;
-  senha: string;
+  matricula: number;
+  password: string;
+  typeUser: number;
   is_admin: boolean;
-  id_avatar: number;
 };
 
 export type PUTChangeInfos = POSTEmailOrLoginError;
@@ -76,7 +68,7 @@ export type GETRankingProps = {
 };
 
 export type POSTEmailOrLoginError = {
-  login: string;
+  name: string;
   email: string;
 };
 

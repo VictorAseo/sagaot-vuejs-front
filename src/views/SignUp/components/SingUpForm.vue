@@ -66,7 +66,7 @@
       </TextButton>
       <AppButton
         class="register-step-one__next-button"
-        @click="goToNextStep"
+        @click="register"
       >
         Cadastrar
       </AppButton>
@@ -77,27 +77,35 @@
 <script lang="ts" setup>
 import FormInput from "@/components/form-input/FormInput.vue";
 import AppButton from "@/components/app-button/AppButton.vue";
-import TextButton from "@/components/text-button/TextButton.vue";
 import Formselect from "@/components/app-select/AppSelect.vue";
-import { storeToRefs } from "pinia";
-import { useRegisterStore } from "@/stores/RegisterStore";
-import { isEmail } from "@/utils";
-import type { RegisterFields } from "@/@types/stores/RegisterStore";
-import { hasEspecialCaracter } from "@/utils";
-import { getEmailOrLoginErrorService } from "@/services/user/service";
+import TextButton from "@/components/text-button/TextButton.vue";
+import { storeToRefs} from "pinia";
 import { useAppStore } from "@/stores/AppStore";
-import { ref } from "vue";
-import type {InputProps, EmitsProps} from "@/@types/components/FormInput";
+import { useUserStore } from "@/stores/UserStore";
+import { isEmail, hasEspecialCaracter } from "@/utils";
+import { useRegisterStore } from "@/stores/RegisterStore";
+import type { UserProps } from "@/@types/services/UserService";
+import type { ProviderAppProps } from "@/@types/providers/App";
+import type { RegisterFields } from "@/@types/stores/RegisterStore";
+import { getEmailOrLoginErrorService } from "@/services/user/service";
+import { loginUserService, registerUserService } from "@/services/user/service";
+import { computed, inject, nextTick, onMounted, ref, type Ref } from "vue";
+//import type {InputProps, EmitsProps} from "@/@types/components/FormInput";
+import router from '@/router/index';
 
-
-const usertypeOptions = ref( [{id: 0, label: 'Aluno'}, {id: 1, label: 'Professor'},
-  {id: 2, label: 'Avaliador'}]);
+//const { $router } = inject<ProviderAppProps>("app") || ({} as ProviderAppProps);
+const usertypeOptions = ref( [{id: 0, label: null}, {id: 1, label: 'Aluno'}, {id: 2, label: 'Professor'},
+  {id: 3, label: 'Avaliador'}]);
 const selectedUsertype = ref(null);
-
 const appStore = useAppStore();
+
 const store = useRegisterStore();
+const userStore = useUserStore();
 const { handleLoading } = appStore;
-const { registerFields } = storeToRefs(store);
+const { registerFields } = storeToRefs(store); //storeToRefs(store)
+const { userData } = storeToRefs(userStore);
+
+
 const { changeStep } = store;
 
 const checkRequiredField = (registerFieldsParam: RegisterFields, key: string) => {
@@ -152,23 +160,22 @@ const validateFields = () => {
       isValid = isValid && !validation ? false : isValid;
     }
   }
-
   return isValid;
 };
 
 const validateLoginAndEmail = async () => {
-  // const payload = {
-  //   email: registerFields.value.email.value?.toString().toLowerCase(),
-  //   login: registerFields.value.username.value?.toString().toLowerCase()
-  // };
-  //
-  // handleLoading(true);
-  //
+  const payload = {
+    email: registerFields.value.email.value?.toString().toLowerCase(),
+    login: registerFields.value.name.value?.toString().toLowerCase()
+  };
+
+  handleLoading(true);
+
   // try {
   //   const response = await getEmailOrLoginErrorService(payload);
-  //   if (registerFields.value.username.status) {
-  //     registerFields.value.username.status = !response.login;
-  //     registerFields.value.username.feedback = response.login;
+  //   if (registerFields.value.name.status) {
+  //     registerFields.value.name.status = !response.name;
+  //     registerFields.value.name.feedback = response.name;
   //   }
   //
   //   if (registerFields.value.email.status) {
@@ -176,22 +183,65 @@ const validateLoginAndEmail = async () => {
   //     registerFields.value.email.feedback = response.email;
   //   }
   //
-  //   return !response.email && !response.login;
+  //   return !response.email && !response.name;
   // } catch (error) {
   //   console.error(error);
   // } finally {
   //   handleLoading(false);
   // }
 };
-
-const goToNextStep = async () => {
-  const isValid = validateFields();
-  // const isEmailAndLoginValid = await validateLoginAndEmail();
-
-  if (!isValid) return; //if (!isValid || !isEmailAndLoginValid) return;
-
-  changeStep(2);
+// const saveUserData = (infos: UserProps | undefined) => {
+//   if (!infos) return;
+//
+//   userData.value = {
+//     id: infos.id,
+//     name: infos.name,
+//     email: infos.email,
+//     matricula: infos.matricula,
+//     typeUser: infos.typeUser,
+//     isAdmin: infos.is_admin,
+//     token: infos.token
+//   };
+//
+//   localStorage.setItem("token", infos.token);
+// };
+const login = async () => {
+  nextTick(() => router.push({ name: "DashboardView" }));
+  // const payload = {
+  //   login: registerFields.value.email,
+  //   senha: registerFields.value.password
+  // };
+  // try {
+  //   const response = await loginUserService(payload);
+  // } catch (error) {
+  //   console.error(error);
+  // } finally {
+  //   handleLoading(false);
+  //   nextTick(() => $router.push({ name: "DashboardView" }));
+  // }
 };
+
+const register = async () => {
+  const isValid = validateFields();
+  if (!isValid) return;
+  nextTick(() => router.push({ name: "DashboardView" }));
+  // const payload = {
+  //     name: registerFields.value.name,
+  //     email: registerFields.value.email,
+  //     matricula: registerFields.value.matricula,
+  //     password: registerFields.value.password,
+  //     typeUser: registerFields.value.typeUser,
+  //     isAdmin: false
+  // };
+  //   handleLoading(true);
+  //   try {
+  //       await registerUserService(payload);
+  //   } catch (error) {
+  //     console.error(error);
+  //   } finally {
+  //     login();
+  //   }
+}
 
 const fields = {
   name: {
@@ -249,8 +299,7 @@ const fields = {
     validations: [checkRequiredField]
   }
 };
-registerFields.value =
-    Object.keys(registerFields.value).length === 0 ? { ...fields } : registerFields.value;
+  registerFields.value = Object.keys(registerFields.value).length === 0 ? { ...fields } : registerFields.value;
 
 </script>
 

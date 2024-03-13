@@ -18,8 +18,13 @@ import type {
 import { useAppStore } from "@/stores/AppStore";
 import { useUserStore } from "@/stores/UserStore";
 import { storeToRefs } from "pinia";
+import type {UnwrapRef} from "vue";
+import type {RegisterFieldProps} from "@/@types/stores/RegisterStore";
 
-export const loginUserService = async (payload: LoginProps): Promise<GetLoginProps> => {
+export const loginUserService = async (payload: {
+  senha: UnwrapRef<RegisterFieldProps> | UnwrapRef<UnwrapRef<RegisterFieldProps>>;
+  login: UnwrapRef<RegisterFieldProps> | UnwrapRef<UnwrapRef<RegisterFieldProps>>
+}): Promise<GetLoginProps> => {
   try {
     const response = await api.post<GetLoginProps>("/usuario/login", payload);
     return response.data;
@@ -28,7 +33,14 @@ export const loginUserService = async (payload: LoginProps): Promise<GetLoginPro
   }
 };
 
-export const registerUserService = async (payload: RegisterParams) => {
+export const registerUserService = async (payload: {
+  password: UnwrapRef<RegisterFieldProps> | UnwrapRef<UnwrapRef<RegisterFieldProps>>;
+  typeUser: UnwrapRef<RegisterFieldProps> | UnwrapRef<UnwrapRef<RegisterFieldProps>>;
+  name: UnwrapRef<RegisterFieldProps> | UnwrapRef<UnwrapRef<RegisterFieldProps>>;
+  matricula: UnwrapRef<RegisterFieldProps> | UnwrapRef<UnwrapRef<RegisterFieldProps>>;
+  isAdmin: boolean;
+  email: UnwrapRef<RegisterFieldProps> | UnwrapRef<UnwrapRef<RegisterFieldProps>>
+}) => {
   try {
     const response = await api.post("/usuario", payload);
     return response.data;
@@ -110,20 +122,13 @@ const saveUserData = (infos: UserProps | undefined) => {
   const { userData } = storeToRefs(userStore);
 
   userData.value = {
-    id: infos.id,
-    firstname: infos.nome,
-    lastname: infos.sobrenome,
-    username: infos.login,
-    email: infos.email,
-    userLevel: infos.user_level,
-    userExp: infos.user_exp,
-    userNextLevelExp: infos.user_next_level_exp,
-    blocked: infos.bloqueado,
-    lifes: infos.vidas,
-    avatarId: infos.id_avatar,
-    avatarSrc: infos.url_avatar,
-    isAdmin: infos.is_admin,
-    token: infos.token
+      id: infos.id,
+      name: infos.name,
+      email: infos.email,
+      matricula: infos.matricula,
+      typeUser: infos.typeUser,
+      isAdmin: infos.is_admin,
+      token: infos.token
   };
 
   localStorage.setItem("token", infos.token);

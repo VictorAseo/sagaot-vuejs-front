@@ -1,15 +1,10 @@
 import { createRouter, createWebHistory, type RouteRecordRaw } from "vue-router";
 import SignInView from "@/views/SignIn/SignInView.vue";
 import SignUpView from "@/views/SignUp/SignUpView.vue";
-//import DashboardView from "@/views/Dashboard/DashboardView.vue";
+import DashboardView from "@/views/Dashboard/DashboardView.vue";
 
 
 const routes: Array<RouteRecordRaw> = [
-  // { // Sign Up screen
-  //   path:"/",
-  //   name:"Homeview",
-  //   component:
-  // },
   { // Sign in screen
     path:"/SignInView",
     name:"SignInView",
@@ -20,11 +15,11 @@ const routes: Array<RouteRecordRaw> = [
     name:"SignUpView",
     component: SignUpView
   },
-  // { //Dashboard screen
-  //   path: "/DashboardView",
-  //   name: "DashboardView",
-  //   component: DashboardView,
-  // }
+  { //Dashboard screen
+    path: "/DashboardView",
+    name: "DashboardView",
+    component: DashboardView,
+  }
 ];
 
 const router = createRouter({

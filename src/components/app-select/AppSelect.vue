@@ -4,6 +4,7 @@
       <label>{{ label }}</label>
       <div
         class="app-select__input-wrapper"
+        :class="[{ 'is-invalid': !inputStatus }]"
         @click="handleOpennedOptions"
       >
         <div class="app-select__input-container">

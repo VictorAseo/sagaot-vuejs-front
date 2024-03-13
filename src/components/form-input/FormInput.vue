@@ -83,7 +83,7 @@ const updateInputValue = (e: Event) => {
     }
 
     &.is-invalid {
-     // border-color: #ff6363;
+      border-color: #ff6363;
     }
   }
 
