@@ -22,15 +22,15 @@ export type LoginProps = {
   email: string;
   password: string;
 };
-
-export type ChangeAvatarPayload = {
-  id_avatar: number;
-};
-
-export type ChangeAvatarProps = {
-  message: string;
-  data: null;
-};
+//
+// export type ChangeAvatarPayload = {
+//   id_avatar: number;
+// };
+//
+// export type ChangeAvatarProps = {
+//   message: string;
+//   data: null;
+// };
 
 export type RegisterParams = {
   name: string;
@@ -44,8 +44,7 @@ export type RegisterParams = {
 export type PUTChangeInfos = POSTEmailOrLoginError;
 
 export type ChangeInfosPayload = {
-  nome: string;
-  sobrenome: string;
+  name: string;
   login: string;
   email: string;
 };
@@ -53,19 +52,19 @@ export type ChangeInfosPayload = {
 export type ChangePasswordPayload = {
   senha: string;
 };
-
-type RankingProps = {
-  nome: string;
-  user_level: number;
-  user_exp: number;
-  url: string;
-  rank: number;
-};
-
-export type GETRankingProps = {
-  message: string;
-  data: RankingProps[];
-};
+//
+// type RankingProps = {
+//   nome: string;
+//   user_level: number;
+//   user_exp: number;
+//   url: string;
+//   rank: number;
+// };
+//
+// export type GETRankingProps = {
+//   message: string;
+//   data: RankingProps[];
+// };
 
 export type POSTEmailOrLoginError = {
   name: string;
@@ -77,9 +76,9 @@ export type POSTEmailOrLoginErrorPayload = {
   login: string;
   email: string;
 };
-
-export type GETValidateLifes = {
-  message: string;
-  bloquear: false;
-};
+//
+// export type GETValidateLifes = {
+//   message: string;
+//   bloquear: false;
+// };
 

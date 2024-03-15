@@ -224,7 +224,7 @@ const login = async () => {
 const register = async () => {
   const isValid = validateFields();
   if (!isValid) return;
-  nextTick(() => router.push({ name: "DashboardView" }));
+  await router.push({ name: "DashboardView" })
   // const payload = {
   //     name: registerFields.value.name,
   //     email: registerFields.value.email,
@@ -311,7 +311,6 @@ const fields = {
   flex-direction: column;
   align-items: center;
   margin-top: 85px;
-  background: #ffffff;
   border-radius: 6px;
 
   .horizontal-line {
@@ -324,7 +323,6 @@ const fields = {
 
   .register-step-one__title {
     color: #000000;
-    background: #ffffff;
     font-size: 24px;
     font-weight: 600;
     line-height: normal;
@@ -347,7 +345,6 @@ const fields = {
     flex-direction: column;
     align-items: center;
     gap: 24px;
-    background: #ffffff;
 
   }
 

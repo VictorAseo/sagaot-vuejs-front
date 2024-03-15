@@ -12,22 +12,22 @@ const saveUserData = (infos: UserProps | undefined) => {
   const userStore = useUserStore();
   const { userData } = storeToRefs(userStore);
 
-  userData.value = {
-    id: infos.id,
-    firstname: infos.nome,
-    lastname: infos.sobrenome,
-    username: infos.login,
-    email: infos.email,
-    userLevel: infos.user_level,
-    userExp: infos.user_exp,
-    userNextLevelExp: infos.user_next_level_exp,
-    blocked: infos.bloqueado,
-    lifes: infos.vidas,
-    avatarId: infos.id_avatar,
-    avatarSrc: infos.url_avatar,
-    isAdmin: infos.is_admin,
-    token: infos.token
-  };
+  // userData.value = {
+  //   id: infos.id,
+  //   firstname: infos.nome,
+  //   lastname: infos.sobrenome,
+  //   username: infos.login,
+  //   email: infos.email,
+  //   userLevel: infos.user_level,
+  //   userExp: infos.user_exp,
+  //   userNextLevelExp: infos.user_next_level_exp,
+  //   blocked: infos.bloqueado,
+  //   lifes: infos.vidas,
+  //   avatarId: infos.id_avatar,
+  //   avatarSrc: infos.url_avatar,
+  //   isAdmin: infos.is_admin,
+  //   token: infos.token
+  // };
 
   localStorage.setItem("token", infos.token);
 };

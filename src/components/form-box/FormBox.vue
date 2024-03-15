@@ -9,10 +9,11 @@
 
 <style lang="scss" scoped>
 div {
-  height: 749px;
-  width: 1010px;
+  height: auto;
+  width: auto;
   background: #ffffff;
   border-radius: 6px;
+  padding: 18px;
 }
 
 </style>

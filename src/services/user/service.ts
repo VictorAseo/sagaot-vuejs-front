@@ -21,10 +21,7 @@ import { storeToRefs } from "pinia";
 import type {UnwrapRef} from "vue";
 import type {RegisterFieldProps} from "@/@types/stores/RegisterStore";
 
-export const loginUserService = async (payload: {
-  senha: UnwrapRef<RegisterFieldProps> | UnwrapRef<UnwrapRef<RegisterFieldProps>>;
-  login: UnwrapRef<RegisterFieldProps> | UnwrapRef<UnwrapRef<RegisterFieldProps>>
-}): Promise<GetLoginProps> => {
+export const loginUserService = async (payload: { password: string; login: string }): Promise<GetLoginProps> => {
   try {
     const response = await api.post<GetLoginProps>("/usuario/login", payload);
     return response.data;
