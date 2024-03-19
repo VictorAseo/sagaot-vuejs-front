@@ -36,7 +36,7 @@ onUnmounted(() => {
 
 <style lang="scss" scoped>
 #register-view__container {
-  margin-top: 3.5%;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;

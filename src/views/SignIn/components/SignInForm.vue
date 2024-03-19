@@ -132,8 +132,6 @@ watch(
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 85px;
-  background: #ffffff;
   border-radius: 6px;
   
   InvalidAlert{
@@ -149,7 +147,6 @@ watch(
 
   .login-step-one__title {
     color: #000000;
-    background: #ffffff;
     font-size: 24px;
     font-weight: 600;
     line-height: normal;

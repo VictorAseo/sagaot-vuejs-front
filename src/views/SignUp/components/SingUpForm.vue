@@ -310,7 +310,6 @@ const fields = {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 85px;
   border-radius: 6px;
 
   .horizontal-line {

@@ -21,6 +21,8 @@ declare module 'vue' {
     FormInput: typeof import('./src/components/form-input/FormInput.vue')['default']
     HelloWord: typeof import('./src/components/hello-word/HelloWord.vue')['default']
     Inputs: typeof import('./src/components/Inputs/Inputs.vue')['default']
+    Nav_barBox: typeof import('./src/components/nav_bar-box/components/nav_bar-box.vue')['default']
+    NavBar_complete: typeof import('./src/components/nav_bar-box/nav-bar_complete.vue')['default']
     ProgressBar: typeof import('./src/components/progress-bar/ProgressBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
